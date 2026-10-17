@@ -110,7 +110,7 @@ peer-rental-marketplace/
 ## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/PeerRent.git
+git clone https://github.com/sudoGourav/PeerRent.git
 
 cd PeerRent/peer-rental-marketplace
 ```
