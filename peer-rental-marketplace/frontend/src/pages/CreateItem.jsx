@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -17,6 +17,7 @@ export default function CreateItem() {
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
+  const previewUrlRef = useRef("");
 
   const [loading, setLoading] = useState(false);
 
@@ -54,8 +55,9 @@ export default function CreateItem() {
     return () => {
       mounted = false;
 
-      if (preview) {
-        URL.revokeObjectURL(preview);
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+        previewUrlRef.current = "";
       }
     };
   }, []);
@@ -75,11 +77,12 @@ export default function CreateItem() {
       return;
     }
 
-    if (preview) {
-      URL.revokeObjectURL(preview);
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
     }
 
     const imageUrl = URL.createObjectURL(file);
+    previewUrlRef.current = imageUrl;
 
     setImage(file);
     setPreview(imageUrl);

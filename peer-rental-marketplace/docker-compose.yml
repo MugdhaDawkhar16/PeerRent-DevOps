@@ -1,21 +1,50 @@
-services:
+﻿services:
   postgres:
     image: postgres:16
-
     container_name: peerrent-postgres
-
     restart: unless-stopped
-
     environment:
       POSTGRES_USER: peerrent
       POSTGRES_PASSWORD: peerrent123
       POSTGRES_DB: peerrent_db
-
     ports:
       - "5432:5432"
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U peerrent -d peerrent_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: peerrent-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      PORT: 5000
+      DATABASE_URL: postgresql://peerrent:peerrent123@postgres:5432/peerrent_db
+      FRONTEND_URL: http://localhost:8080
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:5000/api
+    container_name: peerrent-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

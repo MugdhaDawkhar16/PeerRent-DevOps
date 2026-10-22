@@ -1,156 +1,20 @@
-export default function ItemForm({
-  title,
-  setTitle,
-  description,
-  setDescription,
-  dailyRate,
-  setDailyRate,
-  deposit,
-  setDeposit,
-  categoryId,
-  setCategoryId,
-  categories,
-  preview,
-  handleImageChange,
-  handleSubmit,
-  loading,
-  submitText,
-}) {
+import { ArrowRight, ImagePlus, IndianRupee, Layers3, Package, Type } from "lucide-react";
+
+export default function ItemForm({ title, setTitle, description, setDescription, dailyRate, setDailyRate, deposit, setDeposit, categoryId, setCategoryId, categories, preview, handleImageChange, handleSubmit, loading, submitText }) {
   return (
-    <div className="mx-auto max-w-3xl rounded-2xl bg-white p-5 shadow-lg sm:p-8">
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6"
-      >
-        {/* Image */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Item Image
-          </label>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-white hover:file:bg-blue-700"
-          />
-
-          {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              className="mt-5 h-56 w-full rounded-xl border object-cover shadow sm:h-72"
-            />
-          )}
-        </div>
-
-        {/* Title */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Title
-          </label>
-
-          <input
-            type="text"
-            value={title}
-            onChange={(e) =>
-              setTitle(e.target.value)
-            }
-            placeholder="Canon DSLR Camera"
-            className="w-full rounded-xl border border-gray-300 p-3 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-          />
-        </div>
-
-        {/* Description */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Description
-          </label>
-
-          <textarea
-            rows={5}
-            value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
-            placeholder="Describe your item..."
-            className="w-full rounded-xl border border-gray-300 p-3 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-          />
-        </div>
-
-        {/* Rates */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Daily Rate
-            </label>
-
-            <input
-              type="number"
-              value={dailyRate}
-              onChange={(e) =>
-                setDailyRate(e.target.value)
-              }
-              placeholder="500"
-              className="w-full rounded-xl border border-gray-300 p-3 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Deposit
-            </label>
-
-            <input
-              type="number"
-              value={deposit}
-              onChange={(e) =>
-                setDeposit(e.target.value)
-              }
-              placeholder="2000"
-              className="w-full rounded-xl border border-gray-300 p-3 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-            />
-          </div>
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Category
-          </label>
-
-          <select
-            value={categoryId}
-            onChange={(e) =>
-              setCategoryId(e.target.value)
-            }
-            className="w-full rounded-xl border border-gray-300 p-3 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-          >
-            <option value="">
-              Select Category
-            </option>
-
-            {categories.map((category) => (
-              <option
-                key={category.id}
-                value={category.id}
-              >
-                {category.icon} {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-xl bg-blue-600 py-3 text-lg font-semibold text-white transition duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-        >
-          {loading
-            ? "Please wait..."
-            : submitText}
-        </button>
+    <div className="pr-listing-editor">
+      <div className="pr-editor-intro"><div className="pr-editor-icon"><Package size={24} /></div><div><span className="pr-section-kicker">MAKE SOMETHING USEFUL</span><h2>Tell us about your item.</h2><p>A few details help the right person find it and give it a second life.</p></div></div>
+      <form onSubmit={handleSubmit} className="pr-editor-form">
+        <section className="pr-form-section"><div className="pr-form-section-heading"><span>01</span><div><h3>First impressions</h3><p>Give your listing a name and a great photo.</p></div></div>
+          <div className="pr-field"><label htmlFor="item-title"><Type size={15} /> Item title</label><input id="item-title" type="text" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Canon EOS camera" required maxLength={100} /></div>
+          <div className="pr-field"><label htmlFor="item-description">Description</label><textarea id="item-description" rows={4} value={description} onChange={(event) => setDescription(event.target.value)} placeholder="What makes this item useful? Share its condition, features, and anything renters should know…" required maxLength={2000} /></div>
+          <div className="pr-field"><label htmlFor="item-image"><ImagePlus size={15} /> Item photo</label><div className="pr-upload-area">{preview ? <img src={preview} alt="Item preview" className="pr-upload-preview" /> : <div className="pr-upload-placeholder"><ImagePlus size={30} /><strong>Add a photo that tells the story</strong><span>JPG, PNG or WebP · up to 5 MB</span></div>}<input id="item-image" type="file" accept="image/*" onChange={handleImageChange} /></div></div>
+        </section>
+        <section className="pr-form-section"><div className="pr-form-section-heading"><span>02</span><div><h3>Rental details</h3><p>Set a fair price and help renters browse by category.</p></div></div>
+          <div className="pr-form-two-col"><div className="pr-field"><label htmlFor="item-rate"><IndianRupee size={15} /> Daily rate</label><div className="pr-price-input"><span>₹</span><input id="item-rate" type="number" min="1" step="1" value={dailyRate} onChange={(event) => setDailyRate(event.target.value)} placeholder="500" required /></div><small>What you'll charge per day.</small></div><div className="pr-field"><label htmlFor="item-deposit"><IndianRupee size={15} /> Security deposit</label><div className="pr-price-input"><span>₹</span><input id="item-deposit" type="number" min="0" step="1" value={deposit} onChange={(event) => setDeposit(event.target.value)} placeholder="2000" required /></div><small>Refundable security amount.</small></div></div>
+          <div className="pr-field"><label htmlFor="item-category"><Layers3 size={15} /> Category</label><select id="item-category" value={categoryId} onChange={(event) => setCategoryId(event.target.value)} required><option value="">Choose the best fit</option>{categories.map((category) => <option key={category.id} value={category.id}>{category.icon ? `${category.icon} ` : ""}{category.name}</option>)}</select></div>
+        </section>
+        <div className="pr-editor-submit-row"><p>Good listings have clear photos, honest details, and fair pricing.</p><button type="submit" disabled={loading} className="pr-auth-submit">{loading ? "Saving your listing…" : submitText}<ArrowRight size={18} /></button></div>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -32,11 +32,7 @@ export default function EditItem() {
   // Form submission loading
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const [categoriesRes, itemRes] = await Promise.all([
         getCategories(),
@@ -61,7 +57,15 @@ export default function EditItem() {
     } finally {
       setPageLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      void loadData();
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [loadData]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

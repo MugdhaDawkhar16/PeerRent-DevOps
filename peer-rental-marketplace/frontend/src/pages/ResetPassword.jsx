@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { resetPassword } from "../services/auth.service";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function ResetPassword() {
   const { token } = useParams();
@@ -46,53 +48,18 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
-        <h1 className="mb-6 text-center text-2xl font-bold">
-          Reset Password
-        </h1>
-
+    <div className="pr-simple-auth">
+      <div className="pr-simple-auth-card">
+        <span className="pr-brand-mark">p</span>
+        <h1>Choose a new password.</h1>
+        <p>Make it something secure that you’ll remember. You’ll be redirected to log in after your password is updated.</p>
         <form onSubmit={handleSubmit}>
-          <input
-            type="password"
-            placeholder="New Password"
-            className="mb-4 w-full rounded-lg border p-3"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            disabled={loading}
-            required
-          />
-
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className="mb-4 w-full rounded-lg border p-3"
-            value={confirmPassword}
-            onChange={(e) =>
-              setConfirmPassword(e.target.value)
-            }
-            disabled={loading}
-            required
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-blue-600 py-3 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-          >
-            {loading
-              ? "Updating..."
-              : "Reset Password"}
-          </button>
+          <input type="password" placeholder="New password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={loading} required minLength={6} />
+          <input type="password" placeholder="Confirm new password" autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} disabled={loading} required minLength={6} />
+          <button type="submit" disabled={loading}>{loading ? "Updating password…" : "Update password"}<ArrowRight size={17} /></button>
         </form>
-
-        {message && (
-          <p className="mt-4 text-center text-sm">
-            {message}
-          </p>
-        )}
+        {message && <p role="status" className="pr-reset-message">{message}</p>}
+        <Link to="/login">Back to log in</Link>
       </div>
     </div>
   );

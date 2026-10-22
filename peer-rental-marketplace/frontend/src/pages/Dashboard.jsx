@@ -97,7 +97,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="space-y-8 px-2 sm:space-y-10">
+    <div className="pr-dashboard-page space-y-8 px-2 sm:space-y-10">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold sm:text-4xl">
@@ -143,7 +143,7 @@ export default function Dashboard() {
       </div>
 
       {/* Revenue */}
-      <div className="rounded-2xl bg-white p-5 shadow sm:p-6">
+      <div className="pr-dashboard-panel rounded-2xl bg-white p-5 shadow sm:p-6">
         <h2 className="mb-6 text-xl font-semibold sm:text-2xl">
           Revenue Summary
         </h2>
@@ -173,7 +173,7 @@ export default function Dashboard() {
       </div>
 
       {/* Recent Bookings */}
-      <div className="rounded-2xl bg-white p-5 shadow sm:p-6">
+      <div className="pr-dashboard-panel rounded-2xl bg-white p-5 shadow sm:p-6">
         <h2 className="mb-6 text-xl font-semibold sm:text-2xl">
           Recent Bookings
         </h2>
@@ -240,9 +240,9 @@ function DashboardCard({
   color,
 }) {
   return (
-    <div className="rounded-2xl bg-white p-5 shadow transition hover:shadow-lg sm:p-6">
+    <div className="pr-dashboard-stat rounded-2xl bg-white p-5 shadow transition hover:shadow-lg sm:p-6">
       <div
-        className={`mb-4 flex h-12 w-12 items-center justify-center rounded-full text-2xl text-white ${color}`}
+        className={`pr-dashboard-stat-icon mb-4 flex h-12 w-12 items-center justify-center rounded-full text-2xl text-white ${color}`}
       >
         {icon}
       </div>
@@ -260,7 +260,7 @@ function DashboardCard({
 
 function RevenueCard({ title, value }) {
   return (
-    <div className="rounded-xl bg-gray-50 p-5">
+    <div className="pr-revenue-card rounded-xl bg-gray-50 p-5">
       <p className="text-sm text-gray-500">
         {title}
       </p>

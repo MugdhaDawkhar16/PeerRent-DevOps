@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import ListSkeleton from "../components/ListSkeleton";
@@ -24,11 +24,7 @@ export default function MyBookings() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState(null);
 
-  useEffect(() => {
-    loadBookings();
-  }, []);
-
-  const loadBookings = async () => {
+  const loadBookings = useCallback(async () => {
     try {
       const res = await getMyBookings();
       setBookings(res.data);
@@ -42,7 +38,15 @@ export default function MyBookings() {
     } finally {
       setPageLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      void loadBookings();
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [loadBookings]);
 
   const openCancelModal = (id) => {
     setSelectedBookingId(id);
@@ -66,7 +70,7 @@ export default function MyBookings() {
 
       closeCancelModal();
 
-      loadBookings();
+      await loadBookings();
     } catch (err) {
       console.error(err);
 
@@ -109,7 +113,7 @@ export default function MyBookings() {
 
             toast.success("Payment successful!");
 
-            loadBookings();
+            await loadBookings();
           } catch (err) {
             console.error(err);
 
@@ -180,16 +184,16 @@ export default function MyBookings() {
         loading={cancelLoading !== null}
       />
 
-      <div className="px-2 py-4 sm:px-4 md:px-6">
-        <h1 className="mb-8 text-3xl font-bold sm:text-4xl">
+      <div className="pr-bookings-page px-2 py-4 sm:px-4 md:px-6">
+        <div className="pr-page-title-block"><span className="pr-section-kicker">YOUR RENTAL ACTIVITY</span><h1 className="mb-8 text-3xl font-bold sm:text-4xl">
           My Bookings
-        </h1>
+        </h1><p>Keep track of your rentals, dates, and payments in one place.</p></div>
 
         <div className="space-y-6">
           {bookings.map((booking) => (
             <div
               key={booking.id}
-              className="rounded-2xl border bg-white p-5 shadow transition duration-200 hover:shadow-lg sm:p-6"
+              className="pr-booking-card rounded-2xl border bg-white p-5 shadow transition duration-200 hover:shadow-lg sm:p-6"
             >
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div className="min-w-0 flex-1">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
@@ -61,11 +61,48 @@ export default function ItemDetails() {
   const [comment, setComment] =
     useState("");
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  const loadItem = useCallback(async () => {
+    try {
+      const res = await getItemById(id);
+      setItem(res.data);
+    } catch (err) {
+      console.error("Failed to load item:", err);
+    }
+  }, [id]);
 
-  const loadData = async () => {
+  const loadReviews = useCallback(async () => {
+    try {
+      const res = await getItemReviews(id);
+
+      setReviews(res.data.reviews);
+      setAverageRating(res.data.averageRating);
+      setTotalReviews(res.data.totalReviews);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [id]);
+
+  const loadUnavailableDates = useCallback(async () => {
+    try {
+      const res = await getUnavailableDates(id);
+      const blocked = [];
+
+      res.data.forEach((booking) => {
+        blocked.push(
+          ...eachDayOfInterval({
+            start: new Date(booking.startDate),
+            end: new Date(booking.endDate),
+          })
+        );
+      });
+
+      setUnavailableDates(blocked);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [id]);
+
+  const loadData = useCallback(async () => {
     try {
       await Promise.all([
         loadItem(),
@@ -75,60 +112,11 @@ export default function ItemDetails() {
     } finally {
       setPageLoading(false);
     }
-  };
+  }, [loadItem, loadReviews, loadUnavailableDates]);
 
-  const loadItem = async () => {
-    try {
-      const res = await getItemById(id);
-      setItem(res.data);
-    } catch (err) {
-      console.error("Failed to load item:", err);
-    }
-  };
-
-  const loadReviews = async () => {
-    try {
-      const res =
-        await getItemReviews(id);
-
-      setReviews(res.data.reviews);
-      setAverageRating(
-        res.data.averageRating
-      );
-      setTotalReviews(
-        res.data.totalReviews
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const loadUnavailableDates =
-    async () => {
-      try {
-        const res =
-          await getUnavailableDates(id);
-
-        const blocked = [];
-
-        res.data.forEach((booking) => {
-          blocked.push(
-            ...eachDayOfInterval({
-              start: new Date(
-                booking.startDate
-              ),
-              end: new Date(
-                booking.endDate
-              ),
-            })
-          );
-        });
-
-        setUnavailableDates(blocked);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const handleBooking = async () => {
     if (bookingLoading) return;
@@ -198,7 +186,7 @@ toast.success("Booking Created Successfully");
         setRating(5);
         setComment("");
 
-        loadReviews();
+        await loadReviews();
       } catch (err) {
         toast.error(
     err.response?.data?.message ||
@@ -232,10 +220,10 @@ toast.success("Booking Created Successfully");
       <Loader text="Loading item..." />
     );
   }  return (
-    <div className="mx-auto max-w-6xl p-6">
-      <div className="grid gap-10 lg:grid-cols-2">
+    <div className="pr-item-details-page mx-auto max-w-6xl p-6">
+      <div className="pr-item-details-layout grid gap-10 lg:grid-cols-2">
         {/* Image Section */}
-        <div className="h-96 overflow-hidden rounded-2xl bg-gray-100 shadow">
+        <div className="pr-item-detail-image h-96 overflow-hidden rounded-2xl bg-gray-100 shadow">
           {item.imageUrl ? (
             <img
               src={item.imageUrl}

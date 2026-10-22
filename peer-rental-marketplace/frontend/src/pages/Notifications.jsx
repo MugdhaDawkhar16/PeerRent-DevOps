@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import { useNotifications } from "../context/NotificationContext";
+import { useNotifications } from "../context/useNotifications";
 
 import ListSkeleton from "../components/ListSkeleton";
 import EmptyState from "../components/EmptyState";
@@ -115,11 +115,11 @@ export default function Notifications() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
+    <div className="pr-notifications-page mx-auto max-w-4xl p-6">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">
+        <div className="pr-page-title-block"><span className="pr-section-kicker">UP TO DATE</span><h1 className="text-3xl font-bold">
           Notifications
-        </h1>
+        </h1><p>Booking, payment, and account updates will show up here.</p></div>
 
         <button
           onClick={handleMarkAll}
@@ -155,7 +155,7 @@ export default function Notifications() {
                 );
               }
             }}
-            className={`cursor-pointer rounded-xl border p-4 shadow-sm transition ${
+            className={`pr-notification-card cursor-pointer rounded-xl border p-4 shadow-sm transition ${
               notification.isRead
                 ? "bg-white"
                 : "border-blue-200 bg-blue-50"

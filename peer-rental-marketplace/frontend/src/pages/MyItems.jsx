@@ -127,12 +127,12 @@ export default function MyItems() {
         loading={deleteLoading !== null}
       />
 
-      <div>
+      <div className="pr-my-items-page">
         {/* Header */}
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-3xl font-bold sm:text-4xl">
+          <div className="pr-page-title-block"><span className="pr-section-kicker">YOUR SHARING SHELF</span><h1 className="text-3xl font-bold sm:text-4xl">
             My Items
-          </h1>
+          </h1><p>Manage the things you’ve made available to your community.</p></div>
 
           <Link
             to="/create-item"
@@ -147,7 +147,7 @@ export default function MyItems() {
           {items.map((item) => (
             <div
               key={item.id}
-              className="overflow-hidden rounded-2xl border bg-white shadow transition duration-200 hover:-translate-y-1 hover:shadow-lg"
+              className="pr-my-item-card overflow-hidden rounded-2xl border bg-white shadow transition duration-200 hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="h-56 overflow-hidden bg-gray-100">
                 <ImageWithFallback

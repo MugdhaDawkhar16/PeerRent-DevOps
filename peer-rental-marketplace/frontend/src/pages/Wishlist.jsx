@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -7,7 +7,7 @@ import EmptyState from "../components/EmptyState";
 import ImageWithFallback from "../components/ImageWithFallback";
 
 import { getWishlist } from "../services/wishlist.service";
-import { useWishlist } from "../context/WishlistContext";
+import { useWishlist } from "../context/useWishlist";
 
 export default function Wishlist() {
   const [items, setItems] = useState([]);
@@ -16,11 +16,7 @@ export default function Wishlist() {
 
   const { toggleWishlist } = useWishlist();
 
-  useEffect(() => {
-    loadWishlist();
-  }, []);
-
-  const loadWishlist = async () => {
+  const loadWishlist = useCallback(async () => {
     try {
       const res = await getWishlist();
       setItems(res.data);
@@ -34,7 +30,15 @@ export default function Wishlist() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      void loadWishlist();
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [loadWishlist]);
 
   const handleRemove = async (itemId) => {
     try {
@@ -75,16 +79,16 @@ export default function Wishlist() {
   }
 
   return (
-    <div>
-      <h1 className="mb-8 text-3xl font-bold">
-        My Wishlist ❤️
-      </h1>
+    <div className="pr-wishlist-page">
+      <div className="pr-page-title-block"><span className="pr-section-kicker">SAVED FOR LATER</span><h1 className="mb-8 text-3xl font-bold">
+        My Wishlist <span aria-hidden="true">♥</span>
+      </h1><p>Your shortlist of useful things you might want to borrow.</p></div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((wishlist) => (
           <div
             key={wishlist.id}
-            className="rounded-xl border bg-white p-5 shadow"
+            className="pr-wishlist-card rounded-xl border bg-white p-5 shadow"
           >
             <ImageWithFallback
               src={wishlist.item.imageUrl}

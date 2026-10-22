@@ -1,71 +1,44 @@
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-
-import { useWishlist } from "../context/WishlistContext";
+import { Heart, ArrowUpRight, Tag } from "lucide-react";
+import { useWishlist } from "../context/useWishlist";
 import ImageWithFallback from "./ImageWithFallback";
 
 export default function ItemCard({ item }) {
   const { wishlistIds, toggleWishlist } = useWishlist();
-
   const isWishlisted = wishlistIds.includes(item.id);
 
   const handleWishlist = async () => {
     try {
       await toggleWishlist(item.id);
+      toast.success(isWishlisted ? "Removed from wishlist" : "Saved to wishlist");
     } catch (err) {
-      toast.error(
-        err.response?.data?.message ||
-          "Wishlist operation failed."
-      );
+      toast.error(err.response?.data?.message || "Wishlist operation failed.");
     }
   };
 
   return (
-    <div className="rounded-xl border bg-white p-5 shadow transition hover:shadow-lg">
-      {/* Image Section */}
-      <div className="relative mb-4 h-40 overflow-hidden rounded-lg bg-gray-100">
-        <button
-          onClick={handleWishlist}
-          className="absolute right-3 top-3 z-10 rounded-full bg-white p-2 text-2xl shadow transition hover:scale-110"
-        >
-          {isWishlisted ? "❤️" : "🤍"}
-        </button>
-
-        <ImageWithFallback
-          src={item.imageUrl}
-          alt={item.title}
-          className="h-full w-full object-cover"
-          fallbackIcon={item.category?.icon || "📦"}
-        />
-      </div>
-
-      {/* Item Title */}
-      <h2 className="text-xl font-semibold">
-        {item.title}
-      </h2>
-
-      {/* Description */}
-      <p className="mt-2 line-clamp-2 text-gray-600">
-        {item.description}
-      </p>
-
-      {/* Price & Category */}
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-lg font-bold text-blue-600">
-          ₹{item.dailyRate}/day
-        </span>
-
-        <span className="rounded-full bg-gray-100 px-3 py-1 text-sm">
-          {item.category?.name}
-        </span>
-      </div>
-
-      {/* View Details */}
-      <Link to={`/items/${item.id}`}>
-        <button className="mt-5 w-full rounded-lg bg-blue-600 py-2 text-white transition hover:bg-blue-700">
-          View Details
-        </button>
+    <article className="pr-item-card">
+      <Link to={`/items/${item.id}`} className="pr-item-image-link" aria-label={`View ${item.title}`}>
+        <div className="pr-item-image">
+          <ImageWithFallback src={item.imageUrl} alt={item.title} className="h-full w-full object-cover" fallbackIcon={item.category?.icon || "📦"} />
+          <span className="pr-image-category">{item.category?.name || "For rent"}</span>
+        </div>
       </Link>
-    </div>
+      <button onClick={handleWishlist} className={`pr-save-button ${isWishlisted ? "is-saved" : ""}`} aria-label={isWishlisted ? "Remove from wishlist" : "Save to wishlist"}>
+        <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
+      </button>
+      <div className="pr-item-card-body">
+        <div className="pr-item-card-heading">
+          <Link to={`/items/${item.id}`}><h3>{item.title}</h3></Link>
+          <div className="pr-item-price"><strong>₹{Number(item.dailyRate || 0).toLocaleString("en-IN")}</strong><span>/ day</span></div>
+        </div>
+        <p className="pr-item-description">{item.description || "A great find, ready for its next adventure."}</p>
+        <div className="pr-item-card-footer">
+          <span className="pr-item-meta"><Tag size={14} /> {item.category?.name || "Flexible rental"}</span>
+          <Link to={`/items/${item.id}`} className="pr-card-arrow" aria-label={`See details for ${item.title}`}><ArrowUpRight size={18} /></Link>
+        </div>
+      </div>
+    </article>
   );
 }

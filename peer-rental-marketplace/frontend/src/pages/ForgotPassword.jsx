@@ -1,5 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 import { forgotPassword } from "../services/auth.service";
 
@@ -54,41 +56,16 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
-        <h1 className="mb-6 text-center text-2xl font-bold">
-          Forgot Password
-        </h1>
-
+    <div className="pr-simple-auth">
+      <div className="pr-simple-auth-card">
+        <span className="pr-brand-mark">p</span>
+        <h1>Forgot your password?</h1>
+        <p>No stress. Share the email address connected to your PeerRent account and we’ll send you a reset link.</p>
         <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            autoComplete="email"
-            className="mb-4 w-full rounded-lg border p-3"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            disabled={loading}
-            required
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex w-full items-center justify-center rounded-lg bg-blue-600 py-3 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-          >
-            {loading ? (
-              <>
-                <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                Sending...
-              </>
-            ) : (
-              "Send Reset Link"
-            )}
-          </button>
+          <input type="email" placeholder="Enter your email address" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading} required />
+          <button type="submit" disabled={loading}>{loading ? "Sending reset link…" : "Send reset link"}<ArrowRight size={17} /></button>
         </form>
+        <Link to="/login">Back to log in</Link>
       </div>
     </div>
   );
