@@ -5,10 +5,6 @@
 </p>
 
 <p align="center">
-PeerRent is a full-stack peer-to-peer rental marketplace built with React, Node.js, Express, PostgreSQL, and Prisma. This project demonstrates application development alongside containerization, continuous integration, Kubernetes, and cloud deployment.
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/React-Frontend-61DAFB?logo=react&logoColor=black" alt="React" />
   <img src="https://img.shields.io/badge/Node.js-Backend-339933?logo=nodedotjs&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/PostgreSQL-Database-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL" />
@@ -19,12 +15,13 @@ PeerRent is a full-stack peer-to-peer rental marketplace built with React, Node.
   <img src="https://img.shields.io/badge/Grafana-Planned-F46800?logo=grafana&logoColor=white" alt="Grafana" />
 </p>
 
+<p align="center">
+PeerRent is a full-stack peer-to-peer rental marketplace built with React, Node.js, Express, PostgreSQL, and Prisma. This project demonstrates application development alongside containerization, continuous integration, Kubernetes, and cloud deployment.
+</p>
+
 Live Demo
-
 Frontend: https://peerrent-devops.pages.dev
-
 Backend API: https://peerrent-backend-g2tw.onrender.com
-
 Source Code: https://github.com/MugdhaDawkhar16/PeerRent-DevOps
 
 The frontend is hosted on Cloudflare Pages, the backend API runs on Render, and PostgreSQL is hosted on Supabase. Jenkins automates the current CI validation pipeline, while Docker Desktop Kubernetes provides a local container-orchestration environment.
