@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  A full-stack rental marketplace with a containerized deployment and a cloud-native DevOps roadmap.
+PeerRent is a full-stack peer-to-peer rental marketplace built with React, Node.js, Express, PostgreSQL, and Prisma. This project demonstrates application development alongside containerization, continuous integration, Kubernetes, and cloud deployment.
 </p>
 
 <p align="center">
@@ -19,6 +19,15 @@
   <img src="https://img.shields.io/badge/Grafana-Planned-F46800?logo=grafana&logoColor=white" alt="Grafana" />
 </p>
 
+Live Demo
+
+Frontend: https://peerrent-devops.pages.dev
+
+Backend API: https://peerrent-backend-g2tw.onrender.com
+
+Source Code: https://github.com/MugdhaDawkhar16/PeerRent-DevOps
+
+The frontend is hosted on Cloudflare Pages, the backend API runs on Render, and PostgreSQL is hosted on Supabase. Jenkins automates the current CI validation pipeline, while Docker Desktop Kubernetes provides a local container-orchestration environment.
 ---
 
 ## 📌 Table of Contents
