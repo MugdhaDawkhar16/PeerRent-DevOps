@@ -1,4 +1,4 @@
-PeerRent — Peer-to-Peer Rental Marketplace
+# PeerRent — Peer-to-Peer Rental Marketplace
 
 <p align="center">
   <strong>Rent what you need. Earn from what you own.</strong>
@@ -22,7 +22,9 @@ PeerRent — Peer-to-Peer Rental Marketplace
   <img src="https://img.shields.io/badge/Render-Backend-46E3B7?logo=render&logoColor=black" alt="Render" />
 </p>
 
-🌐 Live Demo
+---
+
+## 🌐 Live Demo
 
 <p align="center">
   <a href="https://peerrent-devops.pages.dev"><strong>🚀 Open PeerRent Website</strong></a>
@@ -32,13 +34,16 @@ PeerRent — Peer-to-Peer Rental Marketplace
   <a href="https://github.com/MugdhaDawkhar16/PeerRent-DevOps">GitHub Repository</a>
 </p>
 
-📖 About the Project
+---
 
-PeerRent is a peer-to-peer rental marketplace that connects people who want to rent items with people who own them.
+## 📖 About the Project
+
+**PeerRent** is a peer-to-peer rental marketplace that connects people who want to rent items with people who own them.
 
 Users can browse rental listings, manage their own items, book rentals, save favorites, and interact with a shared marketplace.
 
 The application is built using React, Vite, Node.js, Express, PostgreSQL, and Prisma. The project also demonstrates DevOps practices through Jenkins continuous integration, Docker containerization, local Kubernetes deployment, and cloud hosting.
+
 
 ## 📌 Table of Contents
 
